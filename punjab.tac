@@ -27,4 +27,15 @@ site  = server.Site(root)
 application = service.Application("punjab")
 internet.TCPServer(5280, site).setServiceParent(application)
 
+# Listen to SSL ar port 5281
+ 
+from punjab.ssl import OpenSSLContextFactoryChaining
+
+
+sslContext =OpenSSLContextFactoryChaining('server.key','server.pem')
+reactor.listenSSL(5281, site, contextFactory=sslContext,)
+
+reactor.run()
+
+
 # To run this simply to twistd -y punjab.tac
